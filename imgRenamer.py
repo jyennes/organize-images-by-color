@@ -26,7 +26,7 @@ def clrDetect(image):
     hsv = colors.rgb_to_hsv(rgb)
     # scale hue value to 360
     hsv[0] = hsv[0] * 360
-    print ("HSV: ", hsv)
+    # print ("HSV: ", hsv)
 
     # return hue value
     return hsv[0]
