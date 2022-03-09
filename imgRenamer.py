@@ -13,7 +13,7 @@ from tqdm import tqdm
 def clrDetect(image):
     # Detect dominant color from image
     ct = ColorThief(image)
-    dominant_color = ct.get_color(quality=1)
+    dominant_color = ct.get_color(quality=10)
     # print ("Dominant color: ", dominant_color)
 
     ## convert RGB to HSV
@@ -26,7 +26,7 @@ def clrDetect(image):
     hsv = colors.rgb_to_hsv(rgb)
     # scale hue value to 360
     hsv[0] = hsv[0] * 360
-    # print ("HSV: ", hsv)
+    print ("HSV: ", hsv)
 
     # return hue value
     return hsv[0]
@@ -76,18 +76,21 @@ absp = os.path.abspath(path)
 tempImg = os.listdir(path)[1]
 # fullPath = absp + "\\" + tempImg
 
-# loop through directory
-#n = 0
+# main
 for n in tqdm(range(len(os.listdir(path)))):
     img = os.listdir(path)[n]
+    if img.endswith((r'.png', r'.jpg', r'.bmp')) == False:
+        continue
     fullPath = absp + "\\" + img
     hue = clrDetect(fullPath)
     color = getColor(hue)
     fileNamer(path, img, color)
-    n+=1
+
+## test
+# img = os.listdir(path)[0]
+# print (img.endswith((r'.png', r'.jpg')))
 
 ###
 #TODO more accurate colorthief
-#TODO a way to undo changes
-#TODO utilise hsv better: white/black, use othwr 2 parameters
+#TODO utilise hsv better: white/black, use other 2 parameters
 ###
