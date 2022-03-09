@@ -7,6 +7,8 @@ from colorthief import ColorThief
 from matplotlib import colors
 import os
 from tkinter import *
+from tkinter import filedialog
+from tqdm import tqdm
 
 def clrDetect(image):
     # Detect dominant color from image
@@ -37,22 +39,22 @@ def clrDetect(image):
 def getColor(hue):
     # Red
     if hue >= 0 and hue <= 60: 
-        domColor = 'Red'
+        domColor = '0'
     # Yellow
     elif hue >= 61 and hue <= 120: 
-        domColor = 'Yellow'
+        domColor = '1'
     # Green
     elif hue >= 121 and hue <= 180: 
-        domColor = 'Green'
+        domColor = '2'
     # Cyan
     elif hue >= 181 and hue <= 240: 
-        domColor = 'Cyan'
+        domColor = '3'
     # Blue
     elif hue >= 241 and hue <= 300: 
-        domColor = 'Blue'
+        domColor = '4'
     # Magenta
     elif hue >= 301 and hue <= 360: 
-        domColor = 'Magenta'
+        domColor = '5'
 
     return domColor
 
@@ -63,24 +65,20 @@ def fileNamer(path, name, color):
 # prepend to file names instead of replace
 # os.rename('red.jpg', 'blue.jpg')
 
-## select directory
-# dir = input("Enter directory: ")
-# root = Tk()
-# root.withdraw()
-# path = filedialog.askdirectory()
-# print (path)
+# select directory
+root = Tk()
+root.withdraw()
+path = filedialog.askdirectory()
+print (path)
 
-#temp path
-path = r"G:\Pictures\1080p"
+# path = r"G:\Pictures\1080p"
 absp = os.path.abspath(path)
 tempImg = os.listdir(path)[1]
 # fullPath = absp + "\\" + tempImg
-# print (fullPath)
-# print (clrDetect(fullPath))
 
 # loop through directory
-n = 0
-while n < len(os.listdir(path))+1:
+#n = 0
+for n in tqdm(range(len(os.listdir(path)))):
     img = os.listdir(path)[n]
     fullPath = absp + "\\" + img
     hue = clrDetect(fullPath)
@@ -88,9 +86,8 @@ while n < len(os.listdir(path))+1:
     fileNamer(path, img, color)
     n+=1
 
-
 ###
-#TODO select directory
-#TODO adjust file order used by os.listdir
 #TODO more accurate colorthief
+#TODO a way to undo changes
+#TODO utilise hsv better: white/black, use othwr 2 parameters
 ###
